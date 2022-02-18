@@ -67,7 +67,6 @@ router.get('/:id', async (req, res, next) => {
         })
     });
 
-
     console.log(id);
     res.json({
 
@@ -77,4 +76,12 @@ router.get('/:id', async (req, res, next) => {
 
 });
 
+
+router.get('/:id/delete', async (req, res, next) => {
+    const id = req.params.id;
+    res.json( 'deleting task ${id}');
+});
+
+
 module.exports = router;
+
