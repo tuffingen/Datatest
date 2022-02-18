@@ -12,18 +12,16 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', async (req, res, next) => {
-
     await pool.promise()
         .query('SELECT * FROM tasks')
         .then(([rows, fields]) => {
-            console.log(rows)
-            res.json({
-                tasks: {
-                    data: rows
-                }
-
+               res.render('tasks.njk', {
+                tasks: rows,
+                title: 'Tasks',
+                layout: 'layout.njk',
             });
         })
+
         .catch(err => {
             console.log(err);
 
@@ -37,9 +35,10 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
 
+
     const id = req.params.id;
 
-    if(isNaN(req.params.id)){
+    if (isNaN(req.params.id)) {
         res.status(400).json({
             task: {
                 error: 'Bad request'
@@ -47,31 +46,24 @@ router.get('/:id', async (req, res, next) => {
         });
     }
     await pool.promise()
-    .query('SELECT * FROM tasks WHERE id = ?', [id])
-    .then(([rows, fields]) => {
-        res.json({
-            
-            task: {
-                data: rows
-            }
-        });
-    })    
-    
-    .catch(err => {
-        console.log(err);
+        .query('SELECT * FROM tasks WHERE id = ?', [id])
 
-        res.status(500).json({
-            tasks: {
-                error: 'Error getting tasks'
-            }
-        })
-    });
+
+        .catch(err => {
+            console.log(err);
+
+            res.status(500).json({
+                tasks: {
+                    error: 'Error getting tasks'
+                }
+            })
+        });
 
     console.log(id);
     res.json({
 
         id: req.params.id
-    
+
     })
 
 });
@@ -81,7 +73,7 @@ router.get('/:id/delete', async (req, res, next) => {
     const id = req.params.id;
     res.json(`deleting task ${id}`);
 
-    if(isNaN(req.params.id)){
+    if (isNaN(req.params.id)) {
         res.status(400).json({
             task: {
                 error: 'Bad request'
@@ -89,50 +81,50 @@ router.get('/:id/delete', async (req, res, next) => {
         });
     }
     await pool.promise()
-    .query('DELETE FROM tasks WHERE id = ?', [id])
-    .then(([rows, fields]) => {
-        res.json({
-            
-            task: {
-                data: rows
-            }
-        });
-    })    
+        .query('DELETE FROM tasks WHERE id = ?', [id])
+        .then(([rows, fields]) => {
+            res.json({
 
-    .catch(err => {
-        console.log(err);
-
-        res.status(500).json({
-            tasks: {
-                error: 'Error getting tasks'
-            }
+                task: {
+                    data: rows
+                }
+            });
         })
-    });
+
+        .catch(err => {
+            console.log(err);
+
+            res.status(500).json({
+                tasks: {
+                    error: 'Error getting tasks'
+                }
+            })
+        });
 });
 
 router.post('/', async (req, res, next) => {
-    
+
     const task = req.body.task;
     await pool.promise()
-    .query('INSERT INTO tasks (task) VALUES (?)', [task])
-    .then(([response]) => {
-        res.json({
-            
-            task: {
-                data: response
-            }
-        });
-    })    
+        .query('INSERT INTO tasks (task) VALUES (?)', [task])
+        .then(([response]) => {
+            res.json({
 
-    .catch(err => {
-        console.log(err);
-
-        res.status(500).json({
-            tasks: {
-                error: 'Error posting tasks'
-            }
+                task: {
+                    data: response
+                }
+            });
         })
-    });
+
+        .catch(err => {
+            console.log(err);
+
+            res.status(500).json({
+                tasks: {
+                    error: 'Error posting tasks'
+                }
+            })
+        });
 
 
 });
@@ -141,25 +133,25 @@ router.post('/:id/update', async (req, res, next) => {
     const id = req.params.id;
 
     await pool.promise()
-    .query('INSERT INTO tasks (task) VALUES (?)', [task])
-    .then(([response]) => {
-        res.json({
-            
-            task: {
-                data: response
-            }
-        });
-    })    
+        .query('INSERT INTO tasks (task) VALUES (?)', [task])
+        .then(([response]) => {
+            res.json({
 
-    .catch(err => {
-        console.log(err);
-
-        res.status(500).json({
-            tasks: {
-                error: 'Error posting tasks'
-            }
+                task: {
+                    data: response
+                }
+            });
         })
-    });
+
+        .catch(err => {
+            console.log(err);
+
+            res.status(500).json({
+                tasks: {
+                    error: 'Error posting tasks'
+                }
+            })
+        });
 
 });
 

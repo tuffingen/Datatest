@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 
 router.get('/views/', async  function(req, res, next) {
   let  data = {
-    message: 'Tjena!',
+    message: 'yo makaflo!',
     layout:  'layout.njk',
     title: 'Nunjucks example'
   }
