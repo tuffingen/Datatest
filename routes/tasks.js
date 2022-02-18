@@ -108,13 +108,34 @@ router.get('/:id/delete', async (req, res, next) => {
             }
         })
     });
-
-
-
-
-    
 });
 
+router.post('/', async (req, res, next) => {
+    
+    const task = req.body.task;
+    await pool.promise()
+    .query('INSERT INTO tasks (task) VALUES (?)', [task])
+    .then(([rows, fields]) => {
+        res.json({
+            
+            task: {
+                data: rows
+            }
+        });
+    })    
+
+    .catch(err => {
+        console.log(err);
+
+        res.status(500).json({
+            tasks: {
+                error: 'Error posting tasks'
+            }
+        })
+    });
+
+
+});
 
 module.exports = router;
 
