@@ -79,7 +79,40 @@ router.get('/:id', async (req, res, next) => {
 
 router.get('/:id/delete', async (req, res, next) => {
     const id = req.params.id;
-    res.json( 'deleting task ${id}');
+    res.json(`deleting task ${id}`);
+
+    if(isNaN(req.params.id)){
+        res.status(400).json({
+            task: {
+                error: 'Bad request'
+            }
+        });
+    }
+    await pool.promise()
+    .query('DELETE FROM tasks WHERE id = ?', [id])
+    .then(([rows, fields]) => {
+        res.json({
+            
+            task: {
+                data: rows
+            }
+        });
+    })    
+
+    .catch(err => {
+        console.log(err);
+
+        res.status(500).json({
+            tasks: {
+                error: 'Error getting tasks'
+            }
+        })
+    });
+
+
+
+
+    
 });
 
 
