@@ -115,11 +115,11 @@ router.post('/', async (req, res, next) => {
     const task = req.body.task;
     await pool.promise()
     .query('INSERT INTO tasks (task) VALUES (?)', [task])
-    .then(([rows, fields]) => {
+    .then(([response]) => {
         res.json({
             
             task: {
-                data: rows
+                data: response
             }
         });
     })    
@@ -134,6 +134,32 @@ router.post('/', async (req, res, next) => {
         })
     });
 
+
+});
+router.post('/:id/update', async (req, res, next) => {
+    const task = req.body.task;
+    const id = req.params.id;
+
+    await pool.promise()
+    .query('INSERT INTO tasks (task) VALUES (?)', [task])
+    .then(([response]) => {
+        res.json({
+            
+            task: {
+                data: response
+            }
+        });
+    })    
+
+    .catch(err => {
+        console.log(err);
+
+        res.status(500).json({
+            tasks: {
+                error: 'Error posting tasks'
+            }
+        })
+    });
 
 });
 
