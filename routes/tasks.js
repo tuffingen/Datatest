@@ -13,9 +13,9 @@ var router = express.Router();
 /* GET home page. */
 router.get('/', async (req, res, next) => {
     await pool.promise()
-        .query('SELECT * FROM tasks')
+        .query('SELECT * FROM tasks ORDER BY updated_at')
         .then(([rows, fields]) => {
-               res.render('tasks.njk', {
+            res.render('tasks.njk', {
                 tasks: rows,
                 title: 'Tasks',
                 layout: 'layout.njk',
@@ -105,15 +105,41 @@ router.get('/:id/delete', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
 
     const task = req.body.task;
+       if (task.lenght < 3) {
+    //     res.render(tasks.njk),{
+    //     task: req.body.task,
+    //     tasks: [],
+    //     title: 'Tasks',
+    //     layout: layout.njk
+    // }
+           
+    }//else{
+       // res.status(500).json({
+         //   tasks: {
+           //     error: 'Too short task'
+            //}
+        //})
+
+    //}
     await pool.promise()
         .query('INSERT INTO tasks (task) VALUES (?)', [task])
-        .then(([response]) => {
-            res.json({
-
-                task: {
-                    data: response
-                }
-            });
+        .then((response) => {
+            console.log(response[0].affectedRows)
+            if (response[0].affectedRows == 1) {
+                res.redirect('/tasks')
+            } else {
+                res.status(400).json({
+                    task: {
+                        error: 'Invalid task'
+                    }
+                })
+            }
+            //res.json({
+            //
+            //    task: {
+            //        data: response
+            //    }
+            //   });
         })
 
         .catch(err => {
@@ -135,6 +161,9 @@ router.post('/:id/update', async (req, res, next) => {
     await pool.promise()
         .query('INSERT INTO tasks (task) VALUES (?)', [task])
         .then(([response]) => {
+
+
+
             res.json({
 
                 task: {

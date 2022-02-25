@@ -1,4 +1,10 @@
 body {
-  color: rebeccapurple; }
+  background-color: #999733; }
+
+h2 {
+  line-height: 1; }
+
+button .btn {
+  color: aqua; }
 
 /*# sourceMappingURL=style.css.map */

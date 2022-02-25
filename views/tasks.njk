@@ -1,10 +1,23 @@
 {% extends layout %}
 {% block content %}
-
-<div>
-    {% for task in tasks %}
-       <h2> {{task.task}}</h2>
-    {% endfor %}
-</div>
-
+<main class="container">
+    <div>
+        <form action="/tasks" method="post">
+        <div class="mb 3">
+        <label for="task">Task</label>
+        <div class="input-group mb-3">
+        <input type="task" name="task" id="task" value="{{task}}"placeholder = 'Write a task' required> 
+        <button class= "btn btn-outline-secondary" type="submit" id="button-addon1">Add task</button> 
+        </div>
+        </div>
+        </form>
+    </div>
+    <div>
+        <ul class="list-group">
+        {% for task in tasks %}
+                <li class="list-group-item">{{task.task}}</li>
+        {% endfor %}
+        </ul>
+    </div>
 {% endblock %}
+</main>
