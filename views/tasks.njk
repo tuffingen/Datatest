@@ -1,29 +1,34 @@
 {% extends layout %}
 {% block content %}
-<main class="container">
-    <div>
-        <form action="/tasks" method="post">
-        <div class="mb 3">
-        <label for="task">Task</label>
-        <div class="input-group mb-3">
-        <input type="task" name="task" id="task" value="{{task}}"placeholder = 'Write a task' required> 
-        <button class= "btn btn-outline-secondary" type="submit" id="button-addon1">Add task</button> 
-        </div>
-        </div>
-        </form>
-    </div>
-    <div>
-        <ul class="list-group">
-        {% for task in tasks %}
-                <li class="list-group-item d-flex justify-content-between">{{task.task}}
-                    <a 
-                    href="/tasks/{{task.id}}/delete"
-                    class="btn btn-danger">
-                    Delete task
-                    </a>
-                </li>
-        {% endfor %}
-        </ul>
-    </div>
-{% endblock %}
-</main>
+    <main class="container">
+        <div>
+            <form action="/tasks" method="post">
+                <div class="mb 3">
+                    <label for="task">Task</label>
+                    <div class="input-group mb-3">
+                        <input type="task" name="task" id="task" value="{{ task }}" placeholder='Write a task' required>
+                            <button class="btn btn-outline-secondary" type="submit" id="button-addon1">Add task</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <ul class="list-group">
+                    {% for task in tasks %}
+                        <li class="list-group-item d-flex justify-content-between">
+                            <div class="d-flex">
+                                <div class="form-check me-3">
+                                    <input class="form-check-input" type="checkbox" value="{{ task.completed }}" name="task-{{ task.id }}" id="task-{{ task.id }}" {% if task.completed %} checked {% endif %}>
+                                        <label class="form-check-label" for="task-{{ task.id }}"></label>
+                                    </div>
+                                    {{ task.task }}
+                                </div>
+                                <a href="/tasks/{{ task.id }}/delete" class="btn btn-danger">
+                                    Delete task
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endblock %}
+        </main>
