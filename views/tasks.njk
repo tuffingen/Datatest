@@ -15,7 +15,13 @@
     <div>
         <ul class="list-group">
         {% for task in tasks %}
-                <li class="list-group-item">{{task.task}}</li>
+                <li class="list-group-item d-flex justify-content-between">{{task.task}}
+                    <a 
+                    href="/tasks/{{task.id}}/delete"
+                    class="btn btn-danger">
+                    Delete task
+                    </a>
+                </li>
         {% endfor %}
         </ul>
     </div>

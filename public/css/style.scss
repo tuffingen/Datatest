@@ -1,10 +1,18 @@
 body{
-    background-color: rgb(153, 151, 51);
+    background-color: rgb(219, 219, 219);
 }
 h2{
     line-height: 1;
 }
 
-button .btn{
-    color: aqua;
+.btn-outline-secondary{
+    background-color: rgb(40, 109, 236);
+    color: aliceblue;
+}
+button{
+    color: white;
+}
+.btn-outline-secondary:hover{
+    background-color: rgb(77, 132, 233);
+    color: aliceblue;
 }

@@ -1,10 +1,18 @@
 body {
-  background-color: #999733; }
+  background-color: #dbdbdb; }
 
 h2 {
   line-height: 1; }
 
-button .btn {
-  color: aqua; }
+.btn-outline-secondary {
+  background-color: #286dec;
+  color: aliceblue; }
+
+button {
+  color: white; }
+
+.btn-outline-secondary:hover {
+  background-color: #4d84e9;
+  color: aliceblue; }
 
 /*# sourceMappingURL=style.css.map */
