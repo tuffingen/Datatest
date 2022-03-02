@@ -10,11 +10,16 @@ const pool = require('../database');
     DELETE /:id - Delete a task by id
 */
 router.get('/', async (req, res, next) => {
-
+    
+    const flash = req.session.flash;
+    req.session.flash = null;
+  
+  
     await pool.promise()
         .query('SELECT * FROM tasks ORDER BY updated_at DESC')
         .then(([rows, fields]) => {
               res.render('tasks.njk', {
+                flash: flash,
                 tasks: rows,
                 title: 'Tasks',
                 layout: 'layout.njk'
@@ -122,7 +127,17 @@ router.get('/:id/delete', async (req, res, next) => {
     await pool.promise()
         .query('DELETE FROM tasks WHERE id = ?', [id])
         .then((response) => {
-            res.redirect('/tasks');
+            
+            if (response[0].affectedRows === 1) {
+                req.session.flash = "task deleted";
+                res.redirect('/tasks');
+            
+            } else {
+                req.session.flash = "task not found";
+                res.status(400).redirect('/tasks');
+            }
+            
+        
         })
         .catch(err => {
             console.log(err);

@@ -3,6 +3,7 @@ const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const sassMiddleware = require('node-sass-middleware');
+const session = require('express-session');
 require('dotenv').config();
 
 const indexRouter = require('./routes/index');
@@ -23,11 +24,18 @@ app.use(sassMiddleware({
   indentedSyntax: false, // true = .sass and false = .scss
   sourceMap: true
 }));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { sameSite: true }
+}))
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
+
 
 nunjucks.configure('views', {
   autoescape: true,
