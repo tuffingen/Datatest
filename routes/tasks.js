@@ -80,13 +80,14 @@ router.post('/', async (req, res, next) => {
     const task = req.body.task;
 
     if (task.length < 3) {
+        
         res.status(400).json({
             task: {
                 error: 'A task must have at least 3 characters'
             }
         });
-    }
-
+    }else{
+        
     await pool.promise()
     .query('INSERT INTO tasks (task) VALUES (?)', [task])
     .then((response) => {
@@ -109,6 +110,8 @@ router.post('/', async (req, res, next) => {
             }
         })
     });
+    }
+
     
     
     // res.json(req.body);
